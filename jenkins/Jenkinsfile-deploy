@@ -1,0 +1,52 @@
+pipeline {
+    agent {
+        docker {
+            image 'liquibase/liquibase:4.15.0'
+            reuseNode true
+        }
+    }
+
+    parameters {
+        string(name: 'Tag', description: 'Git tag to deploy')
+        choice(
+            name: 'Environment',
+            choices: ['SIT', 'UAT'],
+            description: 'Target environment'
+        )
+    }
+
+    environment {
+        SIT_DB_URL = 'jdbc:db2://sit-server:50010/SITDB'
+        UAT_DB_URL = 'jdbc:db2://uat-server:50010/UATDB'
+        DEFAULT_SCHEMA = 'INGMTHS'
+        DB_CRED = 'DB2_NONPROD_CREDENTIAL'
+    }
+
+    stages {
+        stage('Checkout Tag') {
+            steps {
+                sh 'git checkout ${Tag}'
+            }
+        }
+
+        stage('Liquibase Deploy') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: env.DB_CRED,
+                        usernameVariable: 'DB_USER',
+                        passwordVariable: 'DB_PASS'
+                    )
+                ]) {
+                    sh """
+                      liquibase \
+                        --classpath=lib/db2jcc4.jar:lib/db2jcc_license_cu.jar \
+                        --driver=com.ibm.db2.jcc.DB2Driver \
+                        --url=${params.Environment == 'SIT' ? SIT_DB_URL : UAT_DB_URL} \
+                        --username=$DB_USER \
+                        --password=$DB_PASS \
+                        --defaultSchemaName=$DEFAULT_SCHEMA \
+                        --changeLogFile=ChangeLogs/changelog_pilot.xml \
+                        update
+                    """
+                }

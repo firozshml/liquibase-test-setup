@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    environment {
+        BRANCH_LABEL = "${BRANCH_NAME}"
+        NEW_TAG = "${BRANCH_LABEL}.${BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Create Release Tag') {
+            steps {
+                sh """
+                  git tag ${NEW_TAG}
+                  git push origin ${NEW_TAG}
+                """
+            }
+        }
+    }
+}
