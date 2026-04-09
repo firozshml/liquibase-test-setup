@@ -1,19 +1,49 @@
 pipeline {
     agent {
         docker {
+            label 'Small'
             image 'liquibase/liquibase:4.15.0'
             reuseNode true
         }
     }
-
+ 
     environment {
-        DB_URL = 'jdbc:db2://azldbdnpingjp01:50046/INGMTH'
+        DB_URL = 'jdbc:db2://10.86.180.76:50046/INGMTH'
         DEFAULT_SCHEMA = 'INGMTHS'
         APP_SCHEMA = 'INGMTHS'
-        DB_CRED = 'M@nulife2025'
+        DB_CRED = 'db-cred-ingmths'
+        CHANGE_DIR = 'ChangeLogs'
     }
-
+ 
     stages {
+ 
+        stage('Checkout Source Code') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/haqfashmanulife/Ingenium_POC.git'
+                    ]]
+                ])
+            }
+        }
+ 
+        stage('Prepare DB2 JDBC Driver') {
+            steps {
+                sh '''
+                    echo "Creating lib directory if not present"
+                    mkdir -p ${CHANGE_DIR}
+ 
+                    echo "Copying DB2 JDBC driver to workspace lib directory"
+                    cp -f changelog_initial.xml ${CHANGE_DIR}/
+ 
+                    echo "Verifying JDBC driver"
+                    ls -l ${CHANGE_DIR}/changelog_initial.xml
+                '''
+            }
+        }
+ 
         stage('Liquibase DEV Update') {
             steps {
                 withCredentials([
@@ -23,17 +53,17 @@ pipeline {
                         passwordVariable: 'DB_PASS'
                     )
                 ]) {
-                    sh """
+                    sh '''
                         liquibase \
-                          --classpath=lib/db2jcc4.jar:lib/db2jcc_license_cu.jar \
+                          --classpath=lib/db2jcc4.jar \
                           --driver=com.ibm.db2.jcc.DB2Driver \
-                          --url=$DB_URL \
-                          --username=$DB_USER \
-                          --password=$DB_PASS \
-                          --defaultSchemaName=$DEFAULT_SCHEMA \
-                          --changeLogFile=ChangeLogs/changelog_pilot.xml \
+                          --url="$DB_URL" \
+                          --username="$DB_USER" \
+                          --password="$DB_PASS" \
+                          --defaultSchemaName="$DEFAULT_SCHEMA" \
+                          --changeLogFile=ChangeLogs/changelog_initial.xml \
                           update
-                    """
+                    '''
                 }
             }
         }

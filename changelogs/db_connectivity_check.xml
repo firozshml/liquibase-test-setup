@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+    http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd
+    http://www.liquibase.org/xml/ns/pro">
+
+</databaseChangeLog>
+    <changeSet
+            id="db-connectivity-current-user-check"
+            author="firoz"
+            runAlways="true">
+
+        <preConditions onFail="HALT" onError="HALT">
+            <sqlCheck expectedResult="INGMTHS">
+                SELECT CURRENT USER FROM SYSIBM.SYSDUMMY1
+            </sqlCheck>
+        </preConditions>
+
+        <!-- No changes are executed; this is a pure connectivity & identity check -->
+
+    </changeSet>
+
+</databaseChangeLog>
