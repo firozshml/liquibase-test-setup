@@ -10,7 +10,7 @@ pipeline {
         DB_URL = 'jdbc:db2://azldbdnpingjp01:50046/INGMTH'
         DEFAULT_SCHEMA = 'INGMTHS'
         APP_SCHEMA = 'INGMTHS'
-        DB_CRED = 'DB2_DEV_CREDENTIAL'
+        DB_CRED = 'M@nulife2025'
     }
 
     stages {
