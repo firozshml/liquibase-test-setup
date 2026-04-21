@@ -7,9 +7,9 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
 
     <!-- DATA -->
-    <changeSet author="firoz" id="load_tlqrt_data">
+    <changeSet author="firoz" id="load_tlqrt_data_100k">
         <loadData
-            file="../Data/TLQRT_Test.del"
+            file="../Data/TLQRT_100K.del"
             separator=","
             tableName="TLQRT"
             relativeToChangelogFile="true">
