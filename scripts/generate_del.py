@@ -23,4 +23,4 @@ def generate_del_file(output_file, start_id=11, total_rows=100_000):
 
 
 if __name__ == "__main__":
-    generate_del_file("C:\\Users\\firozsh\\liquibase-test-setup\\Data\\TLQBASE_100K.del", start_id=11, total_rows=100)
+    generate_del_file("C:\\Users\\firozsh\\liquibase-test-setup\\Data\\TLQBASE_100K.del", start_id=12)
