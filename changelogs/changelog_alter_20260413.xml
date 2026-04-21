@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
         http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
 
     <!-- DDL -->
-    <include file="../Alter_DDL/ALTLQBASE_20260413.sql" relativeToChangelogFile="true"/>
+    <include
+        file="../Alter_DDL/ALTLQBASE_20260413.sql"
+        relativeToChangelogFile="true"/>
 
     <!-- DATA -->
     <changeSet author="firoz" id="load_tlqbase_data">
         <loadData
             file="../Data/TLQBASE_DEL.csv"
             separator=","
-            tableName="TLQBASE">
+            tableName="TLQBASE"
+            relativeToChangelogFile="true">
+
             <column header="ID" name="ID" type="NUMERIC"/>
             <column header="NAME" name="NAME" type="STRING"/>
             <column header="STATUS_CD" name="STATUS_CD" type="STRING"/>
             <column header="CREATED_BY" name="CREATED_BY" type="STRING"/>
             <column header="CREATED_TS" name="CREATED_TS" type="TIMESTAMP"/>
+
         </loadData>
     </changeSet>
 

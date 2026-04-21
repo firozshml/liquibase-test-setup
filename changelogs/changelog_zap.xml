@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <!-- ================================================== -->
+    <!-- ZAP STEP 1: BEFORE CHECK                           -->
+    <!-- ================================================== -->
+    <changeSet author="firoz" id="zap-trt-status-before">
+        <preConditions onFail="HALT">
+            <sqlCheck expectedResult="4">
+                SELECT COUNT(*) FROM TLQBASE WHERE STATUS_CD = 'A'
+            </sqlCheck>
+        </preConditions>
+    </changeSet>
+
+    <!-- ================================================== -->
+    <!-- ZAP STEP 2: UPDATE                                 -->
+    <!-- ================================================== -->
+    <changeSet author="firoz" id="zap-trt-status-update">
+        <sql>
+            UPDATE TLQBASE
+            SET STATUS_CD = 'I'
+            WHERE STATUS_CD = 'A'
+        </sql>
+    </changeSet>
+
+    <!-- ================================================== -->
+    <!-- ZAP STEP 3: AFTER CHECK                            -->
+    <!-- ================================================== -->
+    <changeSet author="firoz" id="zap-trt-status-after">
+        <preConditions onFail="HALT">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM TLQBASE WHERE STATUS_CD = 'A'
+            </sqlCheck>
+        </preConditions>
+    </changeSet>
+
+</databaseChangeLog>

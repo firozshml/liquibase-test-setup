@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <!-- DATA -->
+    <changeSet author="firoz" id="load_tlqrt_data">
+        <loadData
+            file="../Data/TLQRT_Test.del"
+            separator="|"
+            tableName="TLQRT"
+            relativeToChangelogFile="true">
+
+            <!-- CHARACTER columns -->
+            <column header="CO_ID" name="CO_ID" type="STRING"/>
+            <column header="RTBL_ID" name="RTBL_ID" type="STRING"/>
+            <column header="RTBL_RT_TYP_CD" name="RTBL_RT_TYP_CD" type="STRING"/>
+            <column header="RTBL_SMKR_CD" name="RTBL_SMKR_CD" type="STRING"/>
+            <column header="RTBL_PAR_CD" name="RTBL_PAR_CD" type="STRING"/>
+            <column header="RTBL_SEX_CD" name="RTBL_SEX_CD" type="STRING"/>
+            <column header="RTBL_STBL_CD" name="RTBL_STBL_CD" type="STRING"/>
+            <column header="LOC_GR_ID" name="LOC_GR_ID" type="STRING"/>
+            <column header="RTBL_DB_OPT_CD" name="RTBL_DB_OPT_CD" type="STRING"/>
+            <column header="RTBL_PNSN_QUALF_CD" name="RTBL_PNSN_QUALF_CD" type="STRING"/>
+            <column header="RTBL_JNT_LIFE_CD" name="RTBL_JNT_LIFE_CD" type="STRING"/>
+            <column header="DPOS_TRM_MO_DUR" name="DPOS_TRM_MO_DUR" type="STRING"/>
+            <column header="DPOS_TRM_DY_DUR" name="DPOS_TRM_DY_DUR" type="STRING"/>
+            <column header="RTBL_AGE" name="RTBL_AGE" type="STRING"/>
+            <column header="RTBL_IDT_NUM" name="RTBL_IDT_NUM" type="STRING"/>
+            <column header="RTBL_REASN_CD" name="RTBL_REASN_CD" type="STRING"/>
+
+            <!-- NUMERIC / DECIMAL columns -->
+            <column header="RTBL_AGE_DUR" name="RTBL_AGE_DUR" type="NUMERIC"/>
+            <column header="RTBL_1_RT" name="RTBL_1_RT" type="NUMERIC"/>
+            <column header="RTBL_2_RT" name="RTBL_2_RT" type="NUMERIC"/>
+            <column header="RTBL_3_RT" name="RTBL_3_RT" type="NUMERIC"/>
+            <column header="RTBL_4_RT" name="RTBL_4_RT" type="NUMERIC"/>
+            <column header="RTBL_5_RT" name="RTBL_5_RT" type="NUMERIC"/>
+            <column header="RTBL_6_RT" name="RTBL_6_RT" type="NUMERIC"/>
+            <column header="RTBL_7_RT" name="RTBL_7_RT" type="NUMERIC"/>
+            <column header="RTBL_8_RT" name="RTBL_8_RT" type="NUMERIC"/>
+
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

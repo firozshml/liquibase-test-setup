@@ -1,31 +1,26 @@
--- liquibase formatted sql
--- changeset firoz:create_tlqbase_table endDelimiter:@
--- comment: Liquibase pilot table for DB2 LUW testing
+--liquibase formatted sql
+--changeset firoz:create_tlqbase_table
 
--- Ensure Db2 built-in functions are resolvable
-SET CURRENT PATH = "SYSIBM","SYSFUN","SYSPROC","SYSIBMADM",${appSchema}
-@
+-------------------------------------------------------------------------------
+-- Create table TLQBASE
+-- Schema is controlled by Liquibase via defaultSchemaName
+-------------------------------------------------------------------------------
 
-CREATE TABLE ${appSchema}.TLQBASE (
-    TLQ_ID        CHAR(8)     NOT NULL
-)
-IN "USERSPACE1"
-ORGANIZE BY ROW
-@
+CREATE TABLE TLQBASE (
+    ID          INTEGER NOT NULL,
+    NAME        VARCHAR(50),
+    CREATED_TS  TIMESTAMP DEFAULT CURRENT TIMESTAMP
+);
 
-CREATE UNIQUE INDEX ${appSchema}.X01TLQBASE
-ON ${appSchema}.TLQBASE (TLQ_ID)
-COMPRESS NO
-INCLUDE NULL KEYS
-DISALLOW REVERSE SCANS
-@
+-------------------------------------------------------------------------------
+-- Add primary key
+-------------------------------------------------------------------------------
 
-ALTER TABLE ${appSchema}.TLQBASE
-ADD CONSTRAINT PK_TLQBASE
-PRIMARY KEY (TLQ_ID)
-ENFORCED
-@
+ALTER TABLE TLQBASE
+    ADD CONSTRAINT PK_TLQBASE PRIMARY KEY (ID);
 
--- Rollback section
--- rollback DROP TABLE ${appSchema}.TLQBASE
-@
+-------------------------------------------------------------------------------
+-- Rollback definitions
+-------------------------------------------------------------------------------
+--rollback ALTER TABLE TLQBASE DROP CONSTRAINT PK_TLQBASE
+--rollback DROP TABLE TLQBASE;
