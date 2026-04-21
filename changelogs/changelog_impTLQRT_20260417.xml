@@ -10,7 +10,7 @@
     <changeSet author="firoz" id="load_tlqrt_data">
         <loadData
             file="../Data/TLQRT_Test.del"
-            separator="|"
+            separator=","
             tableName="TLQRT"
             relativeToChangelogFile="true">
 
