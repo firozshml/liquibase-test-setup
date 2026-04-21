@@ -1,11 +1,10 @@
-def generate_tlqrt_file(
-    output_file="TLQRT_test.del",
+def generate_tlqrt_file_100k(
+    output_file="TLQRT_100K.del",
     start_age=53,
-    rows_per_age=2,
-    total_ages=50
+    total_rows=100_000
 ):
     """
-    Generates a Liquibase-friendly DEL/CSV file for TLQRT.
+    Generates exactly 100,000 Liquibase-friendly rows for TLQRT.
     """
 
     header = [
@@ -37,12 +36,17 @@ def generate_tlqrt_file(
     ]
 
     with open(output_file, "w", encoding="utf-8") as f:
+        # Write header
         f.write(",".join(header) + "\n")
 
-        for i in range(total_ages):
-            age = start_age + i
+        rows_written = 0
+        age = start_age
 
-            for sex in ["M", "F"]:
+        while rows_written < total_rows:
+            for sex in ("M", "F"):
+                if rows_written >= total_rows:
+                    break
+
                 row = [
                     "CP",
                     "CSUS3D",
@@ -59,9 +63,9 @@ def generate_tlqrt_file(
                     "000",
                     f"{age:03d}",
                     "7748884",
-                    str(age),              # ✅ RTBL_AGE_DUR (DECIMAL, NOT NULL)
+                    str(age),                    # ✅ RTBL_AGE_DUR (NOT NULL)
                     " ",
-                    f"{80.0 + i:.5f}",     # RTBL_1_RT
+                    f"{80.0 + age % 100:.5f}",   # RTBL_1_RT
                     "0.00000",
                     "0.00000",
                     "0.00000",
@@ -71,9 +75,13 @@ def generate_tlqrt_file(
                     "0.00000",
                 ]
 
-                quoted = [f"\"{col}\"" for col in row]
+                quoted = [f"\"{value}\"" for value in row]
                 f.write(",".join(quoted) + "\n")
+
+                rows_written += 1
+
+            age += 1
 
 
 if __name__ == "__main__":
-    generate_tlqrt_file("C:\\Users\\firozsh\\liquibase-test-setup\\Data\\TLQRT_Test.del")
+    generate_tlqrt_file_100k("C:\\Users\\firozsh\\liquibase-test-setup\\Data\\TLQRT_100K.del")
