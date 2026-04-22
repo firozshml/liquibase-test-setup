@@ -1,4 +1,4 @@
-def generate_del_file(output_file, start_id=11, total_rows=100_000):
+def generate_del_file(output_file, start_id=11, total_rows=200_000):
     created_by = "LIQUIBASE"
     created_ts = "2024-04-16 10:00:00"
 
@@ -23,4 +23,4 @@ def generate_del_file(output_file, start_id=11, total_rows=100_000):
 
 
 if __name__ == "__main__":
-    generate_del_file("C:\\Users\\firozsh\\liquibase-test-setup\\Data\\TLQBASE_100K.del", start_id=12)
+    generate_del_file("C:\\Users\\firozsh\\liquibase-test-setup\\Data\\TLQBASE_200K.del", start_id=12)
